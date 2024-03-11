@@ -1,10 +1,32 @@
 import React, {useState} from 'react';
 
+
+import QUESTIONS from '../questions.js'
+
 const Quiz = () => {
-    const [activeQuestioIndex,setActiveQuestionIndex] = useState(0)
     const [userAnswers,setUserAnswer] = useState([])
+
+    const activeQuestioIndex = userAnswers.length
+    
+    function handleSelectAnswer(selectedAnswer) {
+        setUserAnswer((prevUserAnswers) => {
+            return [...prevUserAnswers,selectedAnswer]
+        })
+    }
+    
     return (
-        <p>Currently ctive Question</p>
+        <div id="quiz">
+            <div id="question">
+                <h2>{QUESTIONS[activeQuestioIndex].text}</h2>
+                <ul id="answers">
+                    {QUESTIONS[activeQuestioIndex].answers.map((answer) =>
+                        <li key={answer} className="answer">
+                            <button onClick={() => handleSelectAnswer(answer)}>{answer}</button>
+                        </li>
+                    )}
+                </ul>
+            </div>
+        </div>
     );
 };
 
