@@ -3,21 +3,22 @@ import React, {useState} from 'react';
 
 import QUESTIONS from '../questions.js'
 import quizCompleteImg from '../assets/quiz-complete.png'
+import QuestionTimer from "./QuestionTimer.jsx";
 
 const Quiz = () => {
-    const [userAnswers,setUserAnswer] = useState([])
+    const [userAnswers, setUserAnswer] = useState([])
 
     const activeQuestioIndex = userAnswers.length
 
     const quizIsComplete = activeQuestioIndex === QUESTIONS.length
-    
+
     function handleSelectAnswer(selectedAnswer) {
         setUserAnswer((prevUserAnswers) => {
-            return [...prevUserAnswers,selectedAnswer]
+            return [...prevUserAnswers, selectedAnswer]
         })
     }
 
-    if(quizIsComplete) {
+    if (quizIsComplete) {
         return (
             <div id="summary">
                 <img src={quizCompleteImg} alt="Trophy icon"/>
@@ -26,12 +27,13 @@ const Quiz = () => {
         )
     }
 
-    const shuffledAnswers =  [...QUESTIONS[activeQuestioIndex].answers]
+    const shuffledAnswers = [...QUESTIONS[activeQuestioIndex].answers]
     shuffledAnswers.sort(() => Math.random() - 0.5)
-    
+
     return (
         <div id="quiz">
             <div id="question">
+                <QuestionTimer timeout={10000} onTimeout={() => handleSelectAnswer(null)}/>
                 <h2>{QUESTIONS[activeQuestioIndex].text}</h2>
                 <ul id="answers">
                     {shuffledAnswers.map((answer) =>
